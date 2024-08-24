@@ -1,0 +1,39 @@
+#!/bin/bash
+
+server_ip=$(hostname -I | awk '{print $1}')
+
+printf "Hello man. \n What is up? "
+
+printf "Here is the list, pick something: \n
+
+	1. show cpu core numbers.\n
+	2. show memory/RAM info.\n
+	3. clear swap and RAM cache.\n
+	4. install php extenteions.\n
+	5. update & fix mirrorlist.\n
+	6. check connected IPs.\n
+	7. change nameservers.\n 
+	8. find a user's files\n\n"
+
+read -p "pick a task: " choice
+
+case $choice in
+	1) echo Cores = $(( $(lscpu | awk '/^Socket/{ print $2 }') * $(lscpu | awk '/^Core/{ print $4 }') ))
+	;;
+	2) free -h
+	;;
+	3) su -c "echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'" root
+	;;
+	4) echo "TBA.."
+	;;
+	5) mkdir -p /var/log/IO_LOG ; mkdir -p /usr/local/IO_Scripts
+wget --timeout=5 --tries=2 --no-check-certificate -O /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh https://scripts.iranserver.com/Is_IO/Centos_Ubuntu/Find_Fast_Mirror_Ubuntu_.sh; chmod 755 /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh ||  wget --timeout=2 --tries=1 --no-check-certificate -O /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh https://dl.iranserver.com/Is_IO/Centos_Ubuntu/Find_Fast_Mirror_Ubuntu_.sh; chmod 755 /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh
+Find_Fast_Mirror_Ubuntu_.sh current ; Find_Fast_Mirror_Ubuntu_.sh find ; Find_Fast_Mirror_Ubuntu_.sh find --apply ;
+	;;
+	6) netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+	;;
+	7) echo "TBA.."
+	;;
+	8) echo "TBA.."
+	;;
+esac

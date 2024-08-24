@@ -26,9 +26,7 @@ case $choice in
 	;;
 	4) echo "TBA.."
 	;;
-	5) mkdir -p /var/log/IO_LOG ; mkdir -p /usr/local/IO_Scripts
-wget --timeout=5 --tries=2 --no-check-certificate -O /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh https://scripts.iranserver.com/Is_IO/Centos_Ubuntu/Find_Fast_Mirror_Ubuntu_.sh; chmod 755 /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh ||  wget --timeout=2 --tries=1 --no-check-certificate -O /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh https://dl.iranserver.com/Is_IO/Centos_Ubuntu/Find_Fast_Mirror_Ubuntu_.sh; chmod 755 /usr/local/bin/Find_Fast_Mirror_Ubuntu_.sh
-Find_Fast_Mirror_Ubuntu_.sh current ; Find_Fast_Mirror_Ubuntu_.sh find ; Find_Fast_Mirror_Ubuntu_.sh find --apply ;
+  5) echo "Not avilable due to Copyright!"
 	;;
 	6) netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
 	;;

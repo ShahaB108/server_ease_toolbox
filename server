@@ -1,6 +1,18 @@
 #!/bin/bash
 
+function clear_cache() {
+su -c "echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a" root
+}
+function echo_cores() {
+echo Cores = $(( $(lscpu | awk '/^Socket/{ print $2 }') * $(lscpu | awk '/^Core/{ print $4 }') ))
+}
+connected_ips() {
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | grep -v -E "servers\)|Address" | sort | uniq -c | sort -n
+}
+
+
 server_ip=$(hostname -I | awk '{print $1}')
+
 
 printf "Hello man. \n What is up? "
 
@@ -17,21 +29,40 @@ printf "Here is the list, pick something: \n
 
 read -p "pick a task: " choice
 
+echo "----------------------------------------------------------------------"
+
+
 case $choice in
-	1) echo Cores = $(( $(lscpu | awk '/^Socket/{ print $2 }') * $(lscpu | awk '/^Core/{ print $4 }') ))
+  1) echo_cores
 	;;
-	2) free -h
+  2) echo "--------MEMORY INFO--------" 
+     grep 'Mem\|Swap' /proc/meminfo
 	;;
-	3) su -c "echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'" root
+  3) clear_cache 
+     echo "cache cleared succesfully."
 	;;
-	4) echo "TBA.."
+  4) echo "TBA.."
 	;;
   5) echo "Not avilable due to Copyright!"
 	;;
-	6) netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+  6) echo "------CONNECTED IPs------"
+     connected_ips
 	;;
-	7) echo "TBA.."
+7) read -p "select nameservers (google/shecan/electro/403) _> " nameservers
+    case $nameservers in
+      "google") echo -e "nameserver 8.8.8.8 \nnameserver 8.8.4.4 \n" > /etc/resolv.conf
+      ;;
+      "shecan") echo -e "nameserver 178.22.122.100 \nnameserver 78.157.42.100 \n" > /etc/resolv.conf
+      ;;
+      "electro") echo -e "nameserver 78.157.42.101 \nnameserver 78.157.42.100 \n" > /etc/resolv.conf
+      ;;
+      "403") echo -e "nameserver 10.202.10.202 \nnameserver 10.202.10.102 \n" > /etc/resolv.conf
+      ;;
+      *) echo "Wrong nameservers selected"
+    esac 
+
+
 	;;
-	8) echo "TBA.."
+  8) echo "TBA.."
 	;;
 esac

@@ -69,6 +69,9 @@ case $choice in
 
 
 	;;
-  8) echo "TBA.."
+  8) read -p "give me the username  : " user_name
+     uid=$(id -u $user_name)
+     find / -type f -uid $uid -print0 | xargs -0 du -h | sort -h -r > userfiles.txt
+     echo "Users files have been saved into 'userfiles.txt'"
 	;;
 esac

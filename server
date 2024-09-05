@@ -14,15 +14,15 @@ netstat -ntu | awk '{print $5}' | cut -d: -f1 | grep -v -E "servers\)|Address" |
 server_ip=$(hostname -I | awk '{print $1}')
 
 
-printf "Hello man. \n What is up? "
+printf " Hello man. \n What is up? "
 sleep 1
-printf "Here is the list, pick something: \n
+printf "Here is the list, pick something: 
 
 	1. show cpu core numbers.\n
 	2. show memory/RAM info.\n
 	3. clear swap and RAM cache.\n
-	4. install php extenteions.\n
-	5. update & fix mirrorlist.\n
+	4. ----------------------.\n
+	5. ----------------------.\n
 	6. check connected IPs.\n
 	7. change nameservers.\n 
 	8. find a user's files\n\n"
@@ -47,9 +47,9 @@ case $choice in
        *) echo "Wrong input!"
      esac
 	;;
-  4) echo "TBA.."
+  4) echo "not yet"
 	;;
-  5) echo "Not avilable due to Copyright!"
+  5) echo "not yet"
 	;;
   6) echo "------CONNECTED IPs------"
      connected_ips
@@ -72,6 +72,6 @@ case $choice in
   8) read -p "give me the username  : " user_name
      uid=$(id -u $user_name)
      find / -type f -uid $uid -print0 | xargs -0 du -h | sort -h -r > userfiles.txt
-     echo "Users files have been saved into 'userfiles.txt'"
+     echo "$user_name files have been saved into 'userfiles.txt'"
 	;;
 esac

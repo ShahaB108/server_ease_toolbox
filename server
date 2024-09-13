@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# functions
+#
 function clear_cache() {
 su -c "echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a" root
 }
@@ -10,7 +12,7 @@ connected_ips() {
 netstat -ntu | awk '{print $5}' | cut -d: -f1 | grep -v -E "servers\)|Address" | sort | uniq -c | sort -n
 }
 
-
+# get server IP address
 server_ip=$(hostname -I | awk '{print $1}')
 
 
@@ -27,11 +29,14 @@ printf "Here is the list, pick something:
 	7. change nameservers.\n 
 	8. find a user's files\n\n"
 
+# get task numer from user
+#
 read -p "pick a task: " choice
 
 printf " \n -------------------------------------------------\n"
 
-
+# case statement
+#
 case $choice in
   1) echo_cores
 	;;
@@ -66,8 +71,6 @@ case $choice in
       ;;
       *) echo "Wrong nameservers selected"
     esac 
-
-
 	;;
   8) read -p "give me the username  : " user_name
      uid=$(id -u $user_name)

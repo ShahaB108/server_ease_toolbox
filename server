@@ -13,7 +13,8 @@ netstat -ntu | awk '{print $5}' | cut -d: -f1 | grep -v -E "servers\)|Address" |
 }
 
 # get server IP address
-server_ip=$(hostname -I | awk '{print $1}')
+# commented because unused
+#server_ip=$(hostname -I | awk '{print $1}')
 
 
 printf " Hello man. \n What is up? "
@@ -31,7 +32,7 @@ printf "Here is the list, pick something:
 
 # get task numer from user
 #
-read -p "pick a task: " choice
+read -rp "pick a task: " choice
 
 printf " \n -------------------------------------------------\n"
 
@@ -45,7 +46,7 @@ case $choice in
 	;;
   3) clear_cache 
      echo "cache cleared succesfully."
-     read -p "would you like to turn on swap memory?(y/n)" swap_state
+     read -rp "would you like to turn on swap memory?(y/n)" swap_state
      case $swap_state in
        "y") swapon -a ;;
        "n") swapoff -a ;;
@@ -59,7 +60,7 @@ case $choice in
   6) echo "------CONNECTED IPs------"
      connected_ips
 	;;
-  7) read -p "select nameservers (google/shecan/electro/403) _> " nameservers
+  7) read -rp "select nameservers (google/shecan/electro/403) _> " nameservers
     case $nameservers in
       "google") echo -e "nameserver 8.8.8.8 \nnameserver 8.8.4.4 \n" > /etc/resolv.conf
       ;;
@@ -72,9 +73,9 @@ case $choice in
       *) echo "Wrong nameservers selected"
     esac 
 	;;
-  8) read -p "give me the username  : " user_name
-     uid=$(id -u $user_name)
-     find / -type f -uid $uid -print0 | xargs -0 du -h | sort -h -r > userfiles.txt
+  8) read -rp "give me the username  : " user_name
+     uid=$(id -u "$user_name")
+     find / -type f -uid "$uid" -print0 | xargs -0 du -h | sort -h -r > userfiles.txt
      echo "$user_name files have been saved into 'userfiles.txt'"
 	;;
 esac
